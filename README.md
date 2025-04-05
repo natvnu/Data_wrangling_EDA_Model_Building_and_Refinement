@@ -20,10 +20,7 @@ Installation: copy and run the code in Jupyter Notebooks or other Python editor 
 
 Example of results:
 
-![Data_wrangling_bins](https://github.com/natvnu/SQL-for-Data-Science/blob/main/table%20columns.png?raw=true
-)
-
-![Data_wrangling_handling_null_values](https://github.com/natvnu/SQL-for-Data-Science/blob/main/table%20columns.png?raw=true
+![Data_wrangling_bins](https://github.com/natvnu/Data_wrangling_EDA_Model_Building_and_Refinement/blob/main/bins.png?raw=true
 )
 
 ![EDA_regplot_used_cars](https://github.com/natvnu/SQL-for-Data-Science/blob/main/table%20columns.png?raw=true

@@ -8,7 +8,7 @@ The repository contains:
 5.  .py
 
 
-7. 3 csv files (usedcars.csv, laptops.csv and insurance.csv)
+7. 4 csv files (auto.csv (unprocessed dataset), usedcars.csv, laptops.csv and insurance.csv)
 
 Dataset Sources: 
 1. Chicago Public Schools - Progress Report Cards (2011-2012), available from the Chicago Data Portal (https://data.cityofchicago.org/Education/Chicago-Public-Schools-Progress-Report-Cards-2011-/9xs2-f89t)
@@ -20,15 +20,13 @@ Installation: copy and run the code in Jupyter Notebooks or other Python editor 
 
 Example of results:
 
-![Data_wrangling_bins](https://github.com/natvnu/Data_wrangling_EDA_Model_Building_and_Refinement/blob/main/bins.png?raw=true
-)
+![Data_wrangling_bins](https://github.com/natvnu/Data_wrangling_EDA_Model_Building_and_Refinement/blob/main/bins.png?raw=true)
 
-![EDA_regplot_used_cars](https://github.com/natvnu/SQL-for-Data-Science/blob/main/table%20columns.png?raw=true
-)
+![EDA_regplot_used_cars](https://github.com/natvnu/Data_wrangling_EDA_Model_Building_and_Refinement/blob/main/regplot.png?raw=true)
 
-![EDA_boxplot_used_cars](https://github.com/natvnu/SQL-for-Data-Science/blob/main/enrollment.png?raw=true)
+![EDA_boxplot_used_cars](https://github.com/natvnu/Data_wrangling_EDA_Model_Building_and_Refinement/blob/main/boxplot.png?raw=true)
 
-![EDA_heat_plot_used_cars](https://github.com/natvnu/SQL-for-Data-Science/blob/main/Hardship%20index.png?raw=true)
+![EDA_heatmap_used_cars](https://github.com/natvnu/Data_wrangling_EDA_Model_Building_and_Refinement/blob/main/heatmap.png?raw=true)
 
 
 

@@ -8,7 +8,7 @@ The repository contains:
 5. .py
 
 
-7. 4 csv files (auto.csv (unprocessed dataset), usedcars.csv, laptops.csv and insurance.csv)
+7. 4 csv files (auto.csv (unprocessed dataset), usedcars.csv, module_5_auto.csv and insurance.csv)
 
 Dataset Sources: 
 Csv files: auto.csv (unprocessed dataset), usedcars.csv, laptops.csv and insurance.csv, acquired from IBM Data Analysis with Python course (https://www.coursera.org/learn/data-analysis-with-python?specialization=ibm-data-science)

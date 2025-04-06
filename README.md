@@ -5,10 +5,8 @@ The repository contains:
 2. Exploratory Data Analysis-newversion.py - Exploring features to predict price of car, analyzing patterns grouping of data and creating pivot tables. Identifying the effect of independent attributes on price of cars using seaborn plots.
 3. MODEL DEVELOPMENT.py - Simple and Multivar Linear Regression, Polynomial Transformation, Pipelines
 4. Model_Evaluation_and_Refinement_Cars_New.py - Model evaluation and refinement - Cross Validation, train-test split, determining point of overfitting, Ridge Regression, GridSearch
-5. .py
-
-
-7. 4 csv files (auto.csv (unprocessed dataset), usedcars.csv, module_5_auto.csv and insurance.csv)
+5. Model_evaluation_and_refinement_insurance_new.py - data wrangling, EDA, model development, model evaluation and refinement
+6. 4 csv files (auto.csv (unprocessed dataset), usedcars.csv, module_5_auto.csv and insurance.csv)
 
 Dataset Sources: 
 Csv files: auto.csv (unprocessed dataset), usedcars.csv, laptops.csv and insurance.csv, acquired from IBM Data Analysis with Python course (https://www.coursera.org/learn/data-analysis-with-python?specialization=ibm-data-science)

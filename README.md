@@ -4,7 +4,7 @@ The repository contains:
 1. DataWrangling-UsedCars.py - Importing dataset into df, handling missing data, indicator vars, correcting data format, data standardization and normalizaton, binning.
 2. Exploratory Data Analysis-newversion.py - Exploring features to predict price of car, analyzing patterns grouping of data and creating pivot tables. Identifying the effect of independent attributes on price of cars using seaborn plots.
 3. MODEL DEVELOPMENT.py - Simple and Multivar Linear Regression, Polynomial Transformation, Pipelines
-4. .py - Model evaluation and refinement - Cross Validation, train-test split, determining point of overfitting, Ridge Regression, GridSearch
+4. Model_Evaluation_and_Refinement_Cars_New.py - Model evaluation and refinement - Cross Validation, train-test split, determining point of overfitting, Ridge Regression, GridSearch
 5. .py
 
 
@@ -31,6 +31,9 @@ Example of results:
 
 ![Model_building_Evaluation](https://raw.githubusercontent.com/natvnu/Data_wrangling_EDA_Model_Building_and_Refinement/9088d19e6233ab9f15e590ee0aa828d3a71c0db1/R2.png)
 
+![Model_evaluation_point_of_overfitting]()
+
+![Model_refinement_RidgeRegression]()
 
 
 

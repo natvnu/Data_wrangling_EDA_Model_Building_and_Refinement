@@ -1,0 +1,261 @@
+#Model_Evaluation_and_Refinement_Cars_New
+
+import piplite
+await piplite.install(['pandas'])
+await piplite.install(['matplotlib'])
+await piplite.install(['scipy'])
+await piplite.install(['scikit-learn'])
+await piplite.install(['seaborn'])
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import warnings
+warnings.filterwarnings('ignore')
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import cross_val_predict
+import matplotlib.pyplot as plt
+%matplotlib inline
+import seaborn as sns
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import Ridge
+from sklearn.model_selection import GridSearchCV
+
+
+#download the dataset into your browser 
+from pyodide.http import pyfetch
+async def download(url, filename):
+    response = await pyfetch(url)
+    if response.status == 200:
+        with open(filename, "wb") as f:
+            f.write(await response.bytes())
+await download('https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-DA0101EN-SkillsNetwork/labs/Data%20files/module_5_auto.csv','module_5_auto.csv')
+
+df = pd.read_csv("usedcars.csv")
+#focus only on numeric data
+df=df._get_numeric_data()
+#drop unneeded columns
+df=df.drop(['Unnamed: 0.1','Unnamed: 0'],axis=1)
+
+#special plotting libraries
+%pip install micropip
+import micropip
+await micropip.install(['ipywidgets'], keep_going=True)
+import ipywidgets
+from ipywidgets import interact, interactive, fixed, interact_manual
+
+#special plotting functions
+def DistributionPlot(RedFunction, BlueFunction, RedName, BlueName, Title):
+    width = 12
+    height = 10
+    plt.figure(figsize=(width, height))
+    
+    ax1 = sns.kdeplot(RedFunction, color="r", label=RedName)
+    ax2 = sns.kdeplot(BlueFunction, color="b", label=BlueName, ax=ax1)
+
+    plt.title(Title)
+    plt.xlabel('Price (in dollars)')
+    plt.ylabel('Proportion of Cars')
+    plt.legend()
+    plt.show()
+    plt.close()
+
+
+def PollyPlot(xtrain, xtest, y_train, y_test, lr,poly_transform):
+    width = 12
+    height = 10
+    plt.figure(figsize=(width, height))
+    
+    
+    #training data 
+    #testing data 
+    # lr:  linear regression object 
+    #poly_transform:  polynomial transformation object 
+ 
+    xmax=max([xtrain.values.max(), xtest.values.max()])
+
+    xmin=min([xtrain.values.min(), xtest.values.min()])
+
+    x=np.arange(xmin, xmax, 0.1)
+
+
+    plt.plot(xtrain, y_train, 'ro', label='Training Data')
+    plt.plot(xtest, y_test, 'go', label='Test Data')
+    plt.plot(x, lr.predict(poly_transform.fit_transform(x.reshape(-1, 1))), label='Predicted Function')
+    plt.ylim([-10000, 60000])
+    plt.ylabel('Price')
+    plt.legend()
+    plt.close()
+
+
+def f(order, test_data):
+    x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=test_data, random_state=0)
+    pr = PolynomialFeatures(degree=order)
+    x_train_pr = pr.fit_transform(x_train[['horsepower']])
+    x_test_pr = pr.fit_transform(x_test[['horsepower']])
+    poly = LinearRegression()
+    poly.fit(x_train_pr,y_train)
+    PollyPlot(x_train['horsepower'], x_test['horsepower'], y_train, y_test, poly,pr)
+
+
+y_data=df['price']
+x_data=df.drop('price',axis=1)
+
+
+'''
+#1.SLR model, evaluating using R2 and cross validation and predictions
+
+#train-test split the data using 40% as test data
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.10, random_state=1)
+
+lre=LinearRegression()
+#fit the train data
+lre.fit(x_train[['horsepower']],y_train)
+
+#calculate R2 on test (unseen) data
+lre.score(x_test[['horsepower']], y_test) #0.6111827529454426
+#let's calculate R2 on train data (data we used for training the model) just for comparation, it will have higher score
+lre.score(x_train[['horsepower']],y_train) #0.6755325771980133
+#R2 scores calculated on test vs train data will differ even more if test_size is smaller
+
+#cross validation with 4 folds
+cross_val_score(lre, x_data[['horsepower']], y_data, cv=4) #a list of R2 scores for every fold
+cross_val_score(lre, x_data[['horsepower']], y_data, cv=4).mean() #we can calc the mean - 0.5220099150421197
+
+#prediction comparison between lre.predict and cross_val_predict
+yhatlre=lre.predict(x_test[['horsepower']])# we use test (unseen) data returns numpy array
+yhatlre[0:5] #array([12181.59430333,  7169.77316037,  9934.91585993,  8552.34451015, 15465.20125905])
+yhatcv = cross_val_predict(lre,x_data[['horsepower']], y_data,cv=4) #we use all data, and the method automatically splits them into train and test
+yhatcv[0:5] #array([14141.63807508, 14141.63807508, 20814.29423473, 12745.03562306, 14762.35027598])
+
+#2. MLR model, comparation of actual and predicted data
+# differences between in-sample and out-of-sample evaluation are more apparent in MLR and PR models 
+lr = LinearRegression()
+#fit the data
+lr.fit(x_train[['horsepower', 'curb-weight', 'engine-size', 'highway-mpg']], y_train)
+#make prediction on TRAIN DATA
+yhat_train = lr.predict(x_train[['horsepower', 'curb-weight', 'engine-size', 'highway-mpg']])
+#make prediction on TEST DATA
+yhat_test=lr.predict(x_test[['horsepower', 'curb-weight', 'engine-size', 'highway-mpg']])
+
+#visual comparation of actual and predicted data - TRAIN SET, in-sample, familiar data
+Title = 'Distribution  Plot of  Predicted Value Using Training Data vs Actual Training Data'
+DistributionPlot(y_train, yhat_train, "Actual Values (Train)", "Predicted Values (Train)", Title)
+#the predicted data distribution line is close to the actual data, very little difference
+
+#visual comparation of actual and predicted data - TEST SET, out-of-sample, uneseen data
+Title = 'Distribution  Plot of Predicted Values Using Test Data vs Actual Test Data'
+DistributionPlot(y_test, yhat_test, "Actual Values (Test)", "Predicted Values (Test)", Title)
+#the predicted data distribution line is very different than the actual data, so we will try PR model
+#If we increase test size from 0.1 to 0.4, the above difference will be much smaller, but then the model will not good in predicting unseen data
+
+
+#3. PR model - single independent var - degree 5 , PR model - single independent var, comparation of different degrees of PR model
+#Overfitting
+#Let's use 55 percent of the data for training and the rest for testing:
+x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.45, random_state=0)
+#degree 5 
+pr = PolynomialFeatures(degree=5)
+x_train_pr = pr.fit_transform(x_train[['horsepower']])
+x_test_pr = pr.fit_transform(x_test[['horsepower']])#we need this for prediction on unseen data
+#create and train Linear Regression (not Polinomial Regression) using transformed x_train data (x_train_pr)
+poly = LinearRegression()
+poly.fit(x_train_pr, y_train)
+#predict
+yhat = poly.predict(x_test_pr)
+#the first four predicted values compared it to the actual target data
+print("Predicted values:", yhat[0:4])
+print("Actual values:", y_test[0:4].values)
+
+#use "PollyPlot" to display the training data, testing data, and the predicted function
+PollyPlot(x_train['horsepower'], x_test['horsepower'], y_train, y_test, poly,pr)
+plt.show()
+#function tracks the data until 200 horsepower, then begins to diverge from the data points
+#calc R2 for test data
+poly.score(x_test_pr, y_test) #-29.87099623387278 - clearly not a good model, -R2 is a sign of overfitted model
+
+
+#in order to avoid overfitting we will lower the degree of polynomial, and try [1,2,3,4]
+Rsqu_test = []#score list
+degree_list= [1, 2, 3, 4]
+for n in degree_list:
+    #assign degree of polynomial
+    pr = PolynomialFeatures(degree=n)
+    #transform train and test data
+    x_train_pr = pr.fit_transform(x_train[['horsepower']])
+    x_test_pr = pr.fit_transform(x_test[['horsepower']])    
+    #train model on transformed train data
+    lr.fit(x_train_pr, y_train)
+    #test model on transformed test data and append R2 scores to score list
+    Rsqu_test.append(lr.score(x_test_pr, y_test))
+
+#create a plot showing relation between scores and degrees for polynomial
+plt.plot(degree_list, Rsqu_test)
+plt.xlabel('order')
+plt.ylabel('R^2')
+plt.title('R^2 Using Test Data')
+plt.text(3, 0.75, 'Maximum R^2 ')
+plt.show() #R2 drops after degree 3
+'''
+
+#4.PR with multiple independent variables
+#the following interface allows us to experiment with different polynomial orders and different amounts of data
+#interact(f, order=(0, 6, 1), test_data=(0.05, 0.95, 0.05)) #?!?
+
+#PolynomialFeatures object with multiple independent variables of of degree 2
+pr1=PolynomialFeatures(degree=2)
+#transform the training and testing x data for the features 'horsepower', 'curb-weight', 'engine-size' and 'highway-mpg'
+x_train_pr1=pr1.fit_transform(x_train[['horsepower','curb-weight','engine-size','highway-mpg']])
+x_test_pr1=pr1.fit_transform(x_test[['horsepower','curb-weight','engine-size','highway-mpg']])
+#the new data will have 15 features instead of 4
+x_train_pr1.shape
+#creating a linear regression model "poly1" using transformed data
+poly1=LinearRegression()
+#training the object using the method "fit" using the polynomial features
+poly1.fit(x_train_pr1,y_train)
+#predict the output on out-of-sample (test sample) yhat_test_pr
+yhat_test_pr=poly1.predict(x_test_pr1)
+
+'''
+#display the predicted vs actual data (test sample)
+Title='Distribution  Plot of  Predicted Value Using Test Data vs Data Distribution of Test Data'
+DistributionPlot(y_test, yhat_test_pr, "Actual Values (Test)", "Predicted Values (Test)", Title)
+#according to distribution plot, MultiVar Polinomial looks like the best model
+#for price between 5000 and 15000 and then again from 25000 to 50000 the predicted and actual values differ
+'''
+
+#5. Ridge Regression on a PR of degree 2 with multiple independent variables, alpha = 1
+#First we will perform  degree 2 Polinomial Transformation on our data
+pr=PolynomialFeatures(degree=2)
+x_train_pr=pr.fit_transform(x_train[['horsepower', 'curb-weight', 'engine-size', 'highway-mpg','normalized-losses','symboling']])
+x_test_pr=pr.fit_transform(x_test[['horsepower', 'curb-weight', 'engine-size', 'highway-mpg','normalized-losses','symboling']])
+#Create a Ridge regression object, setting the regularization parameter (alpha) to 1 (so no alpha in fact)
+RidgeModel=Ridge(alpha=1)
+#fit the Ridge Regression model
+RidgeModel.fit(x_train_pr, y_train)
+#make prediction
+yhat_ridge= RidgeModel.predict(x_test_pr)
+print('Predicted using Ridge Regression with alpha = 1 (basically no alpha):', yhat_ridge[0:4])
+print('Test set:', y_test[0:4].values)
+#calculate the score of Ridge Model we created
+print('Ridge Regression score(polinomial transformation of 2nd degree, alpha=1):', RidgeModel.score(x_test_pr,y_test)) #0.5334274669469945
+
+# Grid Search to find the best value of alpha
+#define the list of aplha values
+parameters= [{'alpha': [0.001,0.1,1, 10, 100, 1000, 10000, 100000, 100000]}] 
+#create Ridge object
+RR=Ridge()
+#create GridSearch object passing the above Ridge object, the above defined list of parameters and 4 folds
+Grid1=GridSearchCV(RR,parameters,cv=4)
+#fit the Grid
+#Grid1.fit(x_train_pr1,y_train)
+#Grid fitting will automatically split the data and train the model (SLR, MLR, SPR or MPR), we only need to spec x and y
+Grid1.fit(x_data[['horsepower','curb-weight','engine-size','highway-mpg']],y_data)
+#Finding the RidgeRegression model with the best alpha
+BestRR=Grid1.best_estimator_ #turns out the best alpha is 10000
+#we can print out alpha that gives the best results
+print('Alpha value that gives the best model is:', Grid1.best_params_['alpha'])
+#calculating the score for the best RidgeRegression (alpha = 10000)
+BestRR.score(x_test[['horsepower', 'curb-weight', 'engine-size', 'highway-mpg']], y_test) #0.8411649831036152

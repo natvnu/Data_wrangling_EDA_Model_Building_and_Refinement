@@ -27,9 +27,9 @@ Example of results:
 
 ![EDA_heatmap_used_cars](https://github.com/natvnu/Data_wrangling_EDA_Model_Building_and_Refinement/blob/main/heatmap.png?raw=true)
 
-![Model_building_distribution_plot](https://github.com/natvnu/Data_wrangling_EDA_Model_Building_and_Refinement/blob/main/boxplot.png?raw=true)
+![Model_building_distribution_plot](https://raw.githubusercontent.com/natvnu/Data_wrangling_EDA_Model_Building_and_Refinement/9088d19e6233ab9f15e590ee0aa828d3a71c0db1/Actual%20vs%20fitted%20target%20var.png)
 
-![Model_building_Evaluation](https://github.com/natvnu/Data_wrangling_EDA_Model_Building_and_Refinement/blob/main/heatmap.png?raw=true)
+![Model_building_Evaluation](https://raw.githubusercontent.com/natvnu/Data_wrangling_EDA_Model_Building_and_Refinement/9088d19e6233ab9f15e590ee0aa828d3a71c0db1/R2.png)
 
 
 

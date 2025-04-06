@@ -31,9 +31,10 @@ Example of results:
 
 ![Model_building_Evaluation](https://raw.githubusercontent.com/natvnu/Data_wrangling_EDA_Model_Building_and_Refinement/9088d19e6233ab9f15e590ee0aa828d3a71c0db1/R2.png)
 
-![Model_evaluation_point_of_overfitting]()
+![Model_evaluation_point_of_overfitting](https://github.com/natvnu/Data_wrangling_EDA_Model_Building_and_Refinement/blob/main/point%20of%20overfitting.png?raw=true
+)
 
-![Model_refinement_RidgeRegression]()
+![Model_refinement_RidgeRegression](https://github.com/natvnu/Data_wrangling_EDA_Model_Building_and_Refinement/blob/main/RR.png?raw=true)
 
 
 

@@ -3,9 +3,9 @@
 The repository contains:
 1. DataWrangling-UsedCars.py - Importing dataset into df, handling missing data, indicator vars, correcting data format, data standardization and normalizaton, binning.
 2. Exploratory Data Analysis-newversion.py - Exploring features to predict price of car, analyzing patterns grouping of data and creating pivot tables. Identifying the effect of independent attributes on price of cars using seaborn plots.
-3. .py
-4.  .py
-5.  .py
+3. MODEL DEVELOPMENT.py - Simple and Multivar Linear Regression, Simple Polynomial Transformation
+4. .py
+5. .py
 
 
 7. 4 csv files (auto.csv (unprocessed dataset), usedcars.csv, laptops.csv and insurance.csv)

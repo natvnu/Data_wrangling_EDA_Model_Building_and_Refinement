@@ -6,7 +6,8 @@ The repository contains:
 3. MODEL DEVELOPMENT.py - Simple and Multivar Linear Regression, Polynomial Transformation, Pipelines
 4. Model_Evaluation_and_Refinement_Cars_New.py - Model evaluation and refinement - Cross Validation, train-test split, determining point of overfitting, Ridge Regression, GridSearch
 5. Model_evaluation_and_refinement_insurance_new.py - data wrangling, EDA, model development, model evaluation and refinement
-6. 4 csv files (auto.csv (unprocessed dataset), usedcars.csv, module_5_auto.csv and insurance.csv)
+6. Polynomial_Transform_Ridge_GridSearch.py - the 2nd order polynomial transformation, Ridge Regression, relation between alpha and R2 and Grid Search 
+7. 4 csv files (auto.csv (unprocessed dataset), usedcars.csv, module_5_auto.csv and insurance.csv)
 
 Dataset Sources: 
 Csv files: auto.csv (unprocessed dataset), usedcars.csv, laptops.csv and insurance.csv, acquired from IBM Data Analysis with Python course (https://www.coursera.org/learn/data-analysis-with-python?specialization=ibm-data-science)

@@ -95,7 +95,7 @@ df_grouped_one_col
 df_grouped_two_col = temp_df.groupby(['drive-wheels','body-style'], as_index=False).agg({'price': 'mean'})
 df_grouped_two_col
 #df_grouped_two_col is easier to visualize when it is made into a pivot table
-grouped_pivot = df_grouped_two_col.pivot(index='drive-wheels',columns='body-style')
+grouped_pivot=pd.pivot_table(df_grouped_two_col, values='price', index='drive-wheels', columns='body-style')
 grouped_pivot
 grouped_pivot = grouped_pivot.fillna(0) #fill missing values with 0, those are body-styles that do not have certain drive-wheel options
 grouped_pivot

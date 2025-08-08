@@ -52,10 +52,10 @@ print('R2 score of multi reg pipeline:',r2_score(y_test,y_pred_pipe)) #R2 is 0.8
 #when alpha is not specified, it will be assigned 1 by default
 Input=[('scale',StandardScaler()), ('polynomial', PolynomialFeatures(include_bias=False)), ('model', Ridge())]
 ridge_pipe=Pipeline(Input)
-ridge_pipe.fit(x_train, y_train)
+#ridge_pipe.fit(x_train, y_train) 
 #prediction on test set
-y_pred_ridge = ridge_pipe.predict(x_test)
-print('R2 score of ridge pipeline:',r2_score(y_test,y_pred_ridge)) #R2 is 0.8339413909195286  
+#y_pred_ridge = ridge_pipe.predict(x_test)
+#print('R2 score of ridge pipeline:',r2_score(y_test,y_pred_ridge)) #R2 is 0.8339413909195286  
 #refine the model using grid search to find the best degree (2 or 3) and the best alpha between 0 and 0.2, increasing alpha for 0.01
 parameters = [ {'polynomial__degree': [2, 3], 
                 'model__alpha': np.arange(0, 0.2, 0.01) } ]

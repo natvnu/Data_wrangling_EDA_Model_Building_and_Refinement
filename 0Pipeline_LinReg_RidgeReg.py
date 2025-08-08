@@ -1,5 +1,4 @@
 #pipelines 
-
 import piplite
 await piplite.install('seaborn')
 import pandas as pd
@@ -45,17 +44,17 @@ lr_pipe=Pipeline(Input)
 lr_pipe.fit(x_train, y_train)
 #prediction on test set
 y_pred_pipe=lr_pipe.predict(x_test)
-print('R2 score of multi reg pipeline:',r2_score(y_test,y_pred_pipe)) #R2 is 0.8339352280040062
+print('R2 score of Multiple Linear Regression Pipeline:',r2_score(y_test,y_pred_pipe)) #R2 is 0.8339352280040062
 
 
 #2.develop ridge regression model using pipeline 
 #when alpha is not specified, it will be assigned 1 by default
 Input=[('scale',StandardScaler()), ('polynomial', PolynomialFeatures(include_bias=False)), ('model', Ridge())]
 ridge_pipe=Pipeline(Input)
-#ridge_pipe.fit(x_train, y_train) 
+ridge_pipe.fit(x_train, y_train) 
 #prediction on test set
-#y_pred_ridge = ridge_pipe.predict(x_test)
-#print('R2 score of ridge pipeline:',r2_score(y_test,y_pred_ridge)) #R2 is 0.8339413909195286  
+y_pred_ridge = ridge_pipe.predict(x_test)
+print('R2 score of Ridge Pipeline:',r2_score(y_test,y_pred_ridge)) #R2 is 0.8339413909195286  
 #refine the model using grid search to find the best degree (2 or 3) and the best alpha between 0 and 0.2, increasing alpha for 0.01
 parameters = [ {'polynomial__degree': [2, 3], 
                 'model__alpha': np.arange(0, 0.2, 0.01) } ]
@@ -64,6 +63,7 @@ grid_search = GridSearchCV(estimator = ridge_pipe,
                            param_grid = parameters,
                            cv = 4)
 grid_search = grid_search.fit(x_train, y_train) 
+print('Grid Search using Ridge Regression as Estimator')
 print("Best alpha:", grid_search.best_params_['model__alpha'])#best alpha is 0.19
 print("Best polynomial degree:", grid_search.best_params_['polynomial__degree'])#best degree is 3
-print("Best R2 score of a pipeline with the above best parameters is:", grid_search.best_score_) #R2 is 0.8468684169243493
+print("Best R2 score with the above best parameters:", grid_search.best_score_) #R2 is 0.8468684169243493

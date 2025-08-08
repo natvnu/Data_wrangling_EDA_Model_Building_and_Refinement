@@ -1,4 +1,6 @@
-#pipelines 
+# Polynomial and ridge regression pipelines and grid search  - insurance dataset
+
+
 import piplite
 await piplite.install('seaborn')
 import pandas as pd
@@ -44,7 +46,7 @@ lr_pipe=Pipeline(Input)
 lr_pipe.fit(x_train, y_train)
 #prediction on test set
 y_pred_pipe=lr_pipe.predict(x_test)
-print('R2 score of Multiple Linear Regression Pipeline:',r2_score(y_test,y_pred_pipe)) #R2 is 0.8339352280040062
+print('R2 score of Polynomial Regression Pipeline:',r2_score(y_test,y_pred_pipe)) #R2 is 0.8339352280040062
 
 
 #2.develop ridge regression model using pipeline 
